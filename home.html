@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0px;
+			height: 100%;
+		}
+		.donnee {
+			border: 1px solid black;
+			border-radius: 4px;
+		}
+		
+	</style>
+	
+  </head>
+  <body class="test">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="js/chance.js"></script>
+	
+	<div class="container">
+		<div class="container">
+			<h1>A first look at JS !!</h1>
+		</div>
+		<hr/>
+		<div class="panel panel-info">
+			<ul>
+				<li>Bla</li>
+				<li>Bla</li>
+				<li>Bla</li>
+				<li>Bla</li>
+			</ul>
+		</div>
+		
+		
+		<div class="panel panel-info" id="personnes">
+			<table class="myTable table table-bordered">
+				<thead>
+					<tr>
+						<td>Personnes - <i>Press</i> <kbd>Shift</kbd> <i>to add a line and</i> <kbd>Enter</kbd> <i>to reset to one </i></td>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="panel panel-info">
+			<p class="bg-info">Rooms</p>
+			<p id="rooms"></p>
+		</div>
+		
+		<div class="panel panel-info">
+			<p class="bg-info">Clock</p>
+			<p class="clock "></p>
+		</div>
+		
+		<button class="btn btn-default" id="target" type="submit">Free love</button>
+		<button class="btn btn-alert" id="toggle" type="submit">Toggle students</button>
+	
+	</div>
+
+	  <!-- http://stackoverflow.com/questions/12202118/show-mouse-x-and-y-position-with-javascript -->
+        <script type="text/javascript">
+
+            var IE = document.all?true:false
+
+
+            if (!IE) document.captureEvents(Event.MOUSEMOVE)
+
+            document.onmousemove = getMouseXY;
+
+            var tempX = 0
+            var tempY = 0
+
+            function getMouseXY(e) {
+                if (IE) { 
+
+                tempX = event.clientX + document.body.scrollLeft
+                tempY = event.clientY + document.body.scrollTop
+                } 
+                else 
+                {  
+                 tempX = e.pageX
+                 tempY = e.pageY
+                }  
+                document.Show.MouseX.value = tempX
+                document.Show.MouseY.value = tempY
+
+                return true
+                }
+        </script>   
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+			
+				// A chaque pression sur shift, le nombre de ligne augmente
+				var nblines = 1;
+				
+				$(document).keydown(function (e) {
+					if (e.keyCode == 16) {
+						nblines++;
+					}
+					else if (e.keyCode == 13){
+						nblines = 1;
+					}
+				});
+				
+				// A chaque mouvement de souris:
+				$('.test').bind("mousemove", function(){
+					
+					var MonTableau = new Array();
+					
+					//Vide tableau
+					$('.myTable tbody').remove();
+					
+					// Remplis le tableau avec les noms
+					for(var i = 0; i < nblines; i++){
+						var genre = chance.gender();
+						var first = chance.first({ gender: genre });
+						var last = chance.last();
+						
+						if(genre === "Female"){
+							$('.myTable').append("<tr><td bgcolor=\"#FF66FF\">" + "Hello " + first + " " + last  +"</td></tr>");
+						}
+						else{
+							$('.myTable').append("<tr><td bgcolor=\"#99CCFF\">" + "Hello " + first + " " + last  +"</td></tr>");
+						}
+					}
+			})    
+			
+			// Horloge 
+			
+			function clock(){
+				$('.clock').text(Date());
+			}
+			
+			setInterval(clock, 1000);
+			
+			// Liste de salle (JSON)
+			
+			$.getJSON( "./lab1.json", function( data ) {
+			  var items = "";
+			  $.each( data, function( key, val ) {
+				items += key + "/" + val + "<br/>";
+			  });
+			 
+			 $('#rooms').html(items);
+			});
+			
+			// Bouton free love
+			$( "#target" ).click(function() {
+				alert( "Love" );
+			});
+			
+			
+			// Bouton toggle
+			
+			
+			$( "#toggle" ).click(function() {
+				$( "#personnes" ).toggle();
+			});
+			
+		})
+		</script>
+		
+		
+		
+</body>
+<footer>
+	<br/>
+	<div class="container">
+		<form name="Show" class="form-group">
+			<input type="text" name="MouseX" value="0" size="4"> X<br>
+			<input type="text" name="MouseY" value="0" size="4"> Y<br>
+		</form>
+	</div>
+</footer>
+</html> 
