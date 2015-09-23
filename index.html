@@ -163,15 +163,10 @@
 			
 			
 			// Bouton toggle
+			
+			
 			$( "#toggle" ).click(function() {
-				
-				// Si le div est vide, on écrit le html dedans sinon on le vide
-				if($('#personnes').is(':empty')){
-					$('#personnes').html("<p class=\"personneParagraphe\" id=\"personneParagraphe\"><table class=\"myTable table table-bordered\"><thead><tr><td>Personnes</td></tr></thead><tbody></tbody></table></p>");
-				}
-				else{
-					$('#personnes').empty();
-				}
+				$( "#personnes" ).toggle();
 			});
 			
 		})
